@@ -8,16 +8,16 @@ client.events = new EventEmitter();
 client.commands = new Collection();
 
 events.filter(e => e.endsWith('.js')).forEach(event => {
-  event = require(`./events/${event}`)(client);
+  event = require(`./src/events/${event}`)(client);
   event.once ? client.once(event.name, event.execute) : client.on(event.name, event.execute);
 });
 
 events.filter(e => !e.endsWith('.js')).forEach(folder => {
-  readdirSync('events/' + folder).forEach(event => {
-    event = require(`./events/${folder}/${event}`)(client);
+  //readdirSync('src/events/' + folder).forEach(event => {
+    event = require(`./src/events/${folder}/${event}`)(client);
     event.once ? client.once(event.name, event.execute) : client.on(event.name, event.execute);
   });
-});
+//});
 
 for (let folder of readdirSync('commands').filter(folder => !folder.includes('.'))) {
   for (let file of readdirSync('commands/' + folder).filter(f => f.endsWith('.js'))) {
