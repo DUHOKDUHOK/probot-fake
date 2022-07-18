@@ -24,6 +24,13 @@ module.exports = {
        let number = (Math.random() * 9999);
        if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})	
        message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
+       message.channel.send(
+       const filter = m => m.content.includes(`${number}`);
+       const collector = message.channel.createMessageCollector({ filter, time: 100000, max: 1 });
+       collector.on('collect', () => {
+       return message.channel.send("done complete collector")
+        
+        }) 
       } 
     } 
  } 
