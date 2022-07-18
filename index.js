@@ -1,41 +1,49 @@
-const { Client, Collection } = require('discord.js');
-const { prefix, owners } = require('./src/config');
-const { messageCreate } = require('./src/events/messageCreate');
-const { ready } = require('./src/events/ready');
-const { readdirSync } = require('fs');
-const client = new Client({ intents: 32767 })
+const { Client, Collection, MessageEmbed } = require('discord.js');
+require('events').EventEmitter.defaultMaxListeners = 9999999; 
+const express = require('express') 
+const router = express() 
+const Intent = 32767
+const client = new Client({
+intents: Intent, 
+});
 
-ready(client);
+const { prefix, owners } = require('./src/config');
+const { readdirSync } = require('fs');
+const EventEmitter = require('events');
+const events = readdirSync('events');
 
 client.commands = new Collection();
+client.prefix = prefix;
+client.events = new EventEmitter();
 
-const folders = readdirSync('commands');
-for (let folder of folders) {
-  const files = readdirSync('commands/' + folder);
-    for (let file of files) {
-    const pull = require('./commands/' + folder + '/' + file);
-    client.commands.set(pull.name, pull);
+process.on("unhandledRejection", error => {
+  return console.log(error) 
+});
+
+events.filter(e => e.endsWith('.js')).forEach(event => {
+  event = require(`./events/${event}`)(client);
+  event.once ? client.once(event.name, event.execute) : client.on(event.name, event.execute);
+});
+
+events.filter(e => !e.endsWith('.js')).forEach(folder => {
+  readdirSync('events/' + folder).forEach(event => {
+    event = require(`./events/${folder}/${event}`)(client);
+    event.once ? client.once(event.name, event.execute) : client.on(event.name, event.execute);
+  });
+});
+
+for (let folder of readdirSync('commands').filter(folder => !folder.includes('.'))) {
+  for (let file of readdirSync('commands/' + folder).filter(f => f.endsWith('.js'))) {    
+    let command = require(`./commands/${folder}/${file}`);
+    command.category = folder;
+    try {
+      let { helps } = client.replys[command.name];
+      if (helps.description) command.description = helps.description;
+      if (helps.aliases) command.aliases = helps.aliases;
+    } catch {}
+    client.commands.set(command.name, command);
   }
 }
 
-//messageCreate(client);
-client.on('messageCreate', message => {
- 
-  if (message.author.bot || !message.guild) return;
-  if (!message.content.startsWith(prefix)) return;
-  
-  const args = message.content.slice(prefix.length).split(/ +/);
-  const commandName = args.shift();
-  const command = client.commands.find((pull) => {
-    return pull.name === commandName 
-  });
-  
-  if (!command) return;
-  if (command.owner && !owners.includes(message.author.id)) return;
-  if (command.args && !args.length) return;
-  
-  command.execute(message, args, client);
- });
-
-client.login(process.env.token);
-//require('./src/util');
+client.login(process.env.token)
+require('./src/util');
