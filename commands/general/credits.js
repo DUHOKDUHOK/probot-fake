@@ -29,7 +29,8 @@ module.exports = {
        collector.on('collect', (m) => {
          if(m.content.includes(`${parseInt(number)}`)) {
          msg.delete().catch(() => 404)
-         m.delete().catch(() => 404)
+         //m.delete().catch(() => 404)
+         user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${amount} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``) 
         return message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
 
            } else {
