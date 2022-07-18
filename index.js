@@ -5,7 +5,7 @@ const client = new Client({
 intents: Intent, 
 });
 
-const { prefix, owners } = require('./src/config');
+const { prefix, color, owners } = require('./src/config');
 const { readdirSync } = require('fs');
 const EventEmitter = require('events');
 const events = readdirSync('events');
@@ -13,6 +13,7 @@ const events = readdirSync('events');
 client.commands = new Collection();
 client.prefix = prefix;
 client.db = require('pro.db');
+client.color = color;
 client.events = new EventEmitter();
 
 process.on("unhandledRejection", error => {
