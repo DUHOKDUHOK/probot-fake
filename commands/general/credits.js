@@ -20,6 +20,8 @@ module.exports = {
       });
       }
      } else {
+      if(user.id === message.author.id) return message.reply({ content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`, allowedMentions: { repliedUser: false },})
+                          
        credits = data.get(`credits_${message.author.id}`);
        let number = (Math.random() * (99999 - 9999) + 9999);
        if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
@@ -35,8 +37,8 @@ module.exports = {
 
            } else {
          msg.delete().catch(() => 404)
-          } 
-        }) 
-      } 
+            } 
+          }) 
+         } 
     } 
  } 
