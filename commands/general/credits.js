@@ -24,11 +24,17 @@ module.exports = {
        let number = (Math.random() * (99999 - 9999) + 9999);
        if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
        let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
-       const filter = m => m.author.id === message.author.id && m.content.includes(`${parseInt(number)}`);
+       const filter = m => m.author.id === message.author.id
        const collector = message.channel.createMessageCollector({ filter, time: 100000, max: 1 });
-       collector.on('collect', () => {
-       return message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${\` to <@!860865950945378325> **`)
-        
+       collector.on('collect', (m) => {
+         if(m.content.includes(`${parseInt(number)}`)) {
+         msg.delete().catch(() => 404)
+         m.delete().catch(() => 404)
+        return message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
+
+           } else {
+         msg.delete().catch(() => 404)
+          } 
         }) 
       } 
     } 
