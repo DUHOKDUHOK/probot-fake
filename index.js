@@ -1,7 +1,5 @@
 const { Client, Collection, MessageEmbed } = require('discord.js');
 require('events').EventEmitter.defaultMaxListeners = 9999999; 
-const express = require('express') 
-const router = express() 
 const Intent = 32767
 const client = new Client({
 intents: Intent, 

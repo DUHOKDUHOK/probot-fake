@@ -18,9 +18,6 @@ module.exports = client => ({
     if (!command) return;
     
     if (command.owners && !owners.includes(message.author.id)) return;
-    if (!command.dm && !message.guild) return
-    if (!command.dm && message.channel.type === "dm") return 
-    if (message.guild && ["balance", "transfer", "convert"].includes(command.name.toLowerCase())) return 
    
       if (!command.owners) {
       if (!cooldowns.has(command.name)) {
@@ -35,7 +32,7 @@ module.exports = client => ({
           let timeLeft = (expirationTime - now) / 1000;
           if (!cooldowns.has(message.author.id)) {
             cooldowns.set(message.author.id, true);
-            return message.lineReplyNoMention(`**${message.author.username}**, Cool down (**${timeLeft.toFixed(1)} seconds** left)`)
+            return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(1)} seconds** left)`, allowedMentions:)
               .then(msg => {    
               setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
               setTimeout(async () => message.delete(), 2500).catch(async () => null)
