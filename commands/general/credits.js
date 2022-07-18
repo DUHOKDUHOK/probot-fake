@@ -21,14 +21,13 @@ module.exports = {
       }
      } else {
        credits = data.get(`credits_${message.author.id}`);
-       let number = (Math.random() * 9999);
-       if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})	
-       message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
-       message.channel.send(
-       const filter = m => m.content.includes(`${number}`);
+       let number = (Math.random() * (99999 - 9999) + 9999);
+       if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
+       let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
+       const filter = m => m.author.id === message.author.id && m.content.includes(`${parseInt(number)}`);
        const collector = message.channel.createMessageCollector({ filter, time: 100000, max: 1 });
        collector.on('collect', () => {
-       return message.channel.send("done complete collector")
+       return message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${\` to <@!860865950945378325> **`)
         
         }) 
       } 
