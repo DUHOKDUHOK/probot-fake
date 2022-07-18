@@ -5,6 +5,7 @@ const EventEmitter = require('events');
 
 const events = readdirSync('events');
 client.events = new EventEmitter();
+client.commands = new Collection();
 
 events.filter(e => e.endsWith('.js')).forEach(event => {
   event = require(`./events/${event}`)(client);
