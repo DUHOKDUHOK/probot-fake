@@ -1,9 +1,10 @@
 const { prefix, owners } = require('../../src/config');
 
-module.exports.messageCreate = (client, pull) => {
+module.exports.messageCreate = (client) => {
   
 client.on('messageCreate', message => {
-  if (message.author.bot || !message.guild) return;
+ 
+  if (message.author.bot || !message.guild) return;
   if (!message.content.startsWith(prefix)) return;
   
   const args = message.content.slice(prefix.length).split(/ +/);

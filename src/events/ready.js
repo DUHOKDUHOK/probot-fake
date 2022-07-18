@@ -1,3 +1,5 @@
 module.exports.ready = (client) => {
-  console.log(`${client.user.username} Ready !!`);
+  client.on("ready", () => {
+    console.log(`${client.user.username} Ready !!`);
+  });
 };
