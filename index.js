@@ -12,6 +12,7 @@ const events = readdirSync('events');
 
 client.commands = new Collection();
 client.prefix = prefix;
+client.db = require('pro.db');
 client.events = new EventEmitter();
 
 process.on("unhandledRejection", error => {
@@ -34,11 +35,6 @@ for (let folder of readdirSync('commands').filter(folder => !folder.includes('.'
   for (let file of readdirSync('commands/' + folder).filter(f => f.endsWith('.js'))) {    
     let command = require(`./commands/${folder}/${file}`);
     command.category = folder;
-    try {
-      let { helps } = client.replys[command.name];
-      if (helps.description) command.description = helps.description;
-      if (helps.aliases) command.aliases = helps.aliases;
-    } catch {}
     client.commands.set(command.name, command);
   }
 }

@@ -32,7 +32,7 @@ module.exports = client => ({
           let timeLeft = (expirationTime - now) / 1000;
           if (!cooldowns.has(message.author.id)) {
             cooldowns.set(message.author.id, true);
-            return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(1)} seconds** left)`, allowedMentions:)
+            return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(1)} seconds** left)`, allowedMentions: { repliedUser: false }})
               .then(msg => {    
               setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
               setTimeout(async () => message.delete(), 2500).catch(async () => null)

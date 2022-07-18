@@ -1,7 +1,13 @@
 module.exports = {
-  name: 'test', 
+  name: 'credits', 
   async execute(message, args, client) {
     
-  message.channel.send("Work") 
+   const data = client.db;
+   const credits = data.get(`credits_${message.author.id}`);
+   if(!credits) {
+     return message.reply({content: `:bank: | ** ${message.author.username}, your account balance is \`0\`.**`, allowedMentions: { repliedUser: false }}) 
+     } else {
+     return message.reply({content: `:bank: | ** ${message.author.username}, your account balance is \`${credits}\`.**`, allowMentions: { repliedUser: false }}) 
+    } 
    } 
  } 
