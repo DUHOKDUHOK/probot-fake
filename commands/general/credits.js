@@ -22,7 +22,7 @@ module.exports = {
      } else {
        credits = data.get(`credits_${message.author.id}`);
        if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})	
-       message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n type these numbers to confirm :`, })
+       message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n type these numbers to confirm :`, allowedMentions: { replieduser: false }})
       } 
     } 
  } 
