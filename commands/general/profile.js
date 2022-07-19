@@ -3,6 +3,7 @@ const { createCanvas, loadImage } = require('canvas');
 
 module.exports = {
   name: 'profile',
+  cooldown: 20,
   async execute(message, args, client) {
     
     await message.channel.sendTyping()

@@ -25,11 +25,11 @@ module.exports = client => ({
       }
       let now = Date.now();
       let timestamps = cooldowns.get(command.name);
-      let cooldownAmount = (command.cooldown || 3) * 1000;
+      let cooldownAmount = (command.cooldown || 3) * 1000
       if (timestamps.has(message.author.id)) {
         let expirationTime = timestamps.get(message.author.id) + cooldownAmount;
         if (now < expirationTime) {
-          let timeLeft = (expirationTime - now) / 1000;
+          let timeLeft = (expirationTime - now ) / 1000;
           if (!cooldowns.has(message.author.id)) {
             cooldowns.set(message.author.id, true);
             return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(1)} seconds** left)`, allowedMentions: { repliedUser: false }})

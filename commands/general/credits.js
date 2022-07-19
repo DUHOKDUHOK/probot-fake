@@ -2,6 +2,7 @@ const { MessageEmbed } = require('discord.js');
 
 module.exports = {
   name: "credits",
+  cooldown: 20,
   async execute(message, args, client) {
     const data = client.db;
     
