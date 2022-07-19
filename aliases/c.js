@@ -90,6 +90,5 @@ module.exports.c = (client) => {
         msg.delete().catch(() => 404);
          }) 
         }
-      } 
-       }) 
+      }) 
   
