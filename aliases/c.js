@@ -1,10 +1,23 @@
 const { MessageEmbed } = require('discord.js');
+ const cooldowns = new Set()
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if(message.content.startsWith("c")) {
-   
     if(message.author.bot) return 
+    const cooldown = 20000;
+    if (cooldowns.has(message.author.id)) {
+      return message.reply({content: `**${message.author.username}**, Cool down (**20 seconds** left)`, allowedMentions: { repliedUser: false }}).then(msg => { 
+        cooldowns.add(message.author.id);
+     setTimeout(() => { msg.delete() ;
+        }, cooldown);
+       }) 
+    } else {
+      
+    setTimeout(() => { cooldown.delete(message.author.id);
+        }, cooldown);
+      
+      }   
     const data = client.db;
     const args = message.content.split(" ")
     args[0] = message.content.split(" ")[1];
