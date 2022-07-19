@@ -22,7 +22,7 @@ module.exports = {
     if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
      let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`${amount - tax}\`, Amount :\`$${tax}\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
      const filter = m => m.author.id === message.author.id
-     const collector = message.channel.createMessageCollector({ filter, time: 100000, max: 1 });
+     const collector = message.channel.createMessageCollector({ filter, time: 10000, max: 1 });
        collector.on('collect', (m) => {
          if(m.content.includes(`${parseInt(number)}`)) {
          msg.delete().catch(() => 404)
@@ -35,10 +35,12 @@ module.exports = {
            //message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
 
            } else {
-         msg.delete().catch(() => 404)
-            } 
+         msg.delete().catch(() => 404);
+            }
+          }) 
          collector.on("end", () => {
-          } 
+           msg.delete().catch(() => 404);
+          //}) 
           	
           }) 
          } 
