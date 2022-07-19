@@ -88,7 +88,8 @@ module.exports.c = (client) => {
       })
       collector.on("end", () => {
         msg.delete().catch(() => 404);
-         }) 
-        }
+         }
+        }) 
       }) 
+    } 
   
