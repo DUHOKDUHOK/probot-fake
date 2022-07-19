@@ -7,10 +7,9 @@ module.exports.c = (client) => {
     if (cooldowns.has(message.author.id)) {
        } else {
      cooldowns.add(message.author.id);
-     return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }})
-     setTimeout(() => msg.delete(), 3000), 
-                     
-   } 
+     return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }}).then(async (msg) => {
+     setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
+                
     if(message.author.bot) return 
     const data = client.db;
     const args = message.content.split(" ")
@@ -89,8 +88,8 @@ module.exports.c = (client) => {
       })
       collector.on("end", () => {
         msg.delete().catch(() => 404);
-        })
-       }
-     }
-   }) 
- } 
+         }) 
+        }
+      } 
+       }) 
+  
