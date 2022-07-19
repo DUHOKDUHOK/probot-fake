@@ -18,7 +18,7 @@ module.exports = {
      if(user.id === message.author.id) return message.reply({ content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`, allowedMentions: { repliedUser: false },})
                           
     credits = data.get(`credits_${message.author.id}`) || 0; 
-    if (isNaN(amount) || parseInt(amount) != amount || parseInt(amount) < 1) return message.reply({content: ``})
+    if (isNaN(amount) || parseInt(amount) != amount || parseInt(amount) < 1) return message.reply({content: `** :interrobang: | ${message.author.username}, type the credit you need to transfer!**`, allowedMentions: { replieduser: false }});
     let tax = Math.floor(parseInt(amount - amount / parseInt(100 / 5)))
     let number = (Math.random() * (99999 - 10000) + 10000);
     if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
