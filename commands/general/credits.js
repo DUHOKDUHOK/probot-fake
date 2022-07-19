@@ -16,10 +16,11 @@ module.exports = {
      } else {
      if(user.id === message.author.id) return message.reply({ content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`, allowedMentions: { repliedUser: false },})
                           
-    credits = data.get(`credits_${message.author.id}`) || 0;
+    credits = data.get(`credits_${message.author.id}`) || 0; 
+    let tax = Math.floor(parseInt(amount - amount / parseInt(100 / 5)))
     let number = (Math.random() * (99999 - 9999) + 9999);
     if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
-     let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`0\`, Amount :\`$1\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
+     let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`${amount - tax}\`, Amount :\`$${tax}\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
      const filter = m => m.author.id === message.author.id
      const collector = message.channel.createMessageCollector({ filter, time: 100000, max: 1 });
        collector.on('collect', (m) => {
@@ -29,13 +30,16 @@ module.exports = {
           message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
          user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${amount} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``) 
           data.add(`credits_${user.id}`,parseInt(amount));
-          data.subtract(`credit-${user.id}`, parseInt(amount));                                    
+          data.subtract(`credits_${message.author.id}`, parseInt(amount));                                    
         return; 
            //message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
 
            } else {
          msg.delete().catch(() => 404)
             } 
+         collector.on("end", () => {
+          } 
+          	
           }) 
          } 
     } 
