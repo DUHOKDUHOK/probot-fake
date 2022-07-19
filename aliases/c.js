@@ -1,10 +1,38 @@
-const { MessageEmbed } = require('discord.js');
+const { MessageEmbed, Collection } = require('discord.js');
+const cooldown = new Collection() ;
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if(message.content.startsWith("c")) {
+    let now = Date.now();
+      let timestamps = cooldowns.get(command.name);
+      let cooldownAmount = (command.cooldown || 3) * 1000;
+      if (timestamps.has(message.author.id)) {
+        let expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+        if (now < expirationTime) {
+          let timeLeft = (expirationTime - now ) / 1000;
+          if (!cooldowns.has(message.author.id)) {
+            cooldowns.set(message.author.id, true);
+            return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }})
+              .then(msg => {    
+              setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
+              setTimeout(async () => message.delete(), 2500).catch(async () => null)
+             }).catch(async () => {
+           });
+          } else return;
+        }
+      }
+      timestamps.set(message.author.id, now);
+      setTimeout(() => {
+        timestamps.delete(message.author.id);
+        cooldowns.delete(message.author.id);
+      }, cooldownAmount);
+    }
     const data = client.db;
-    const args = message.content.slice(2).replace(/\٠/g, '0').replace(/\١/g, '1').replace(/\٢/g, '2').replace(/\٣/g, '3').replace(/\٤/g, '4').replace(/\٥/g, '5').replace(/\٦/g, '6').replace(/\٧/g, '7').replace(/\٨/g, '8').replace(/\٩/g, '9').split(/ +/);  
+    const args = message.content.split(" ")
+    args[0] = message.content.split(" ")[1];
+    args[1] = message.content.split(" ")[2];
+    args[2] = message.content.split(" ")[3];
     let user = message.author;
     if (args[0]) user = client.users.cache.get(args[0].toUserId()) || client.users.cache.find(u => u.username.toLowerCase() === args[0].toLocaleLowerCase())
     if (!user) return message.reply({
@@ -52,7 +80,7 @@ module.exports.c = (client) => {
       })
       let msg = await message.reply({
         content: `** ${message.author.username}, Transfer Fees: \`${amount - tax}\`, Amount :\`$${tax}\`** \n  type these numbers to confirm :`,
-        files: [await require('../../src/managers/createCaptcha')(parseInt(number))],
+        files: [await require('../src/managers/createCaptcha')(parseInt(number))],
         allowedMentions: {
           replieduser: false
         }
@@ -80,5 +108,8 @@ module.exports.c = (client) => {
         })
        }
      }
+      }) 
+      }
+  }) 
   })
 };
