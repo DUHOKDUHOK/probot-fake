@@ -25,7 +25,7 @@ module.exports = client => ({
       }
       let now = Date.now();
       let timestamps = cooldowns.get(command.name);
-      let cooldownAmount = (command.cooldown || 3) * 1000
+      let cooldownAmount = (command.cooldown || 3) * 1000;
       if (timestamps.has(message.author.id)) {
         let expirationTime = timestamps.get(message.author.id) + cooldownAmount;
         if (now < expirationTime) {
