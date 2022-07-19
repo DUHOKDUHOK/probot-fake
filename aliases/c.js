@@ -6,25 +6,14 @@ module.exports.c = (client) => {
     if (message.content.startsWith("c")) {
     if (message.author.bot) return
     if (cooldowns.has(message.author.id)) {
-    let now = Date.now();
-    let cooldownAmount = (20) * 1000;
-    let expirationTime = cooldowns.get(message.author.id) + cooldownAmount;
-    let timeLeft = (expirationTime - now ) / 1000;
-    return message.reply({
-      content: `**${message.author.username}**, Cool down (**20 seconds** left)`,
-        allowedMentions: {
-        repliedUser: false
-          }
-        }).then(async (msg) => {
-          setTimeout(() => msg.delete(), 2500).catch(async () => null)
-        })
+    return message.reply({ content: `**${message.author.username}**, Cool down (**20 seconds** left)`, allowedMentions: { repliedUser: false }}).then(async (msg) => {
+     setTimeout(() => msg.delete(), 2500).catch(async () => null)})
       } else {
-        cooldowns.add(message.author.id)
-        setTimeout(() => {
-        cooldowns.delete(message.author.id);
+     cooldowns.add(message.author.id)
+     setTimeout(() => {
+     cooldowns.delete(message.author.id);
         }, 20000);
       }
-      
       const data = client.db;
       const args = message.content.split(" ")
       args[0] = message.content.split(" ")[1];
