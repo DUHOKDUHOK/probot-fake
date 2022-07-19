@@ -1,9 +1,10 @@
-const { MessageEmbed } = require('discord.js');
-const cooldowns = new Set() ;
+const { MessageEmbed, Collection } = require('discord.js');
+const cooldown = new Collection() ;
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
-         let now = Date.now();
+    if(message.content.startsWith("c")) {
+    let now = Date.now();
       let timestamps = cooldowns.get(command.name);
       let cooldownAmount = (command.cooldown || 3) * 1000;
       if (timestamps.has(message.author.id)) {
@@ -19,13 +20,14 @@ module.exports.c = (client) => {
              }).catch(async () => {
            });
           } else return;
+        }
+      }
       timestamps.set(message.author.id, now);
       setTimeout(() => {
         timestamps.delete(message.author.id);
         cooldowns.delete(message.author.id);
       }, cooldownAmount);
-    
-    if(message.author.bot) return 
+    }
     const data = client.db;
     const args = message.content.split(" ")
     args[0] = message.content.split(" ")[1];
@@ -105,16 +107,9 @@ module.exports.c = (client) => {
         msg.delete().catch(() => 404);
         })
        }
-         }
-       }
-     })
      }
-      
-        
-        
-       }
-   }
-     }) 
-     
-   }) 
- }
+      }) 
+      }
+  }) 
+  })
+};
