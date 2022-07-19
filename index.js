@@ -40,7 +40,8 @@ for (let folder of readdirSync('commands').filter(folder => !folder.includes('.'
     client.commands.set(command.name, command);
   }
 }
-
+  
+      
 client.login(process.env.token)
 c(client);
 require('./src/util');

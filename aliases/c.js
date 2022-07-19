@@ -1,14 +1,8 @@
 const { MessageEmbed } = require('discord.js');
-const cooldowns = new Set() ;
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if(message.content.startsWith("c")) {
-    if (cooldowns.has(message.author.id)) {
-       } else {
-     cooldowns.add(message.author.id);
-     return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }}).then(async (msg) => {
-     setTimeout(() => msg.delete(), 3000)
    
     if(message.author.bot) return 
     const data = client.db;
