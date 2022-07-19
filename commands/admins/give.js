@@ -13,8 +13,8 @@ module.exports = {
          const credits = data.get(`credits_${user.id}`) || 0; 
          if(args[2].includes("-")) {
          let amount = args[2].replace("-", '')
-         if (credits < amount) return message.reply(`**❌ I Can't remove credits**`).catch(() => {});
-         data.subtract(`credits_${user.id}`, parseInt(1));                      
+         if (credits < amount) return message.reply({content: `**❌ I can't remove credits**`, allowedMentions: { replieduser: false }}).catch(() => {});
+         data.subtract(`credits_${user.id}`, parseInt(args[2]));                      
          return message.channel.send("done remove..");
         } else {
          data.add(`credits_${user.id}`, parseInt(args[2]));
