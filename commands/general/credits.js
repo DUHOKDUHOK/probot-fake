@@ -23,14 +23,14 @@ module.exports = {
     let credits = data.get(`credits_${user.id}`) || 0;
     if (!amount) {
       return message.reply({
-        content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`,
+        content: `:bank: | ** ${user.username}, your account balance is \`$${credits}\`.**`,
         allowedMentions: {
           repliedUser: false
         },
       });
     } else {
       if (user.id === message.author.id) return message.reply({
-        content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`,
+        content: `:bank: | ** ${user.username}, your account balance is \`$${credits}\`.**`,
         allowedMentions: {
           repliedUser: false
         },
