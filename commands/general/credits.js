@@ -18,8 +18,9 @@ module.exports = {
      if(user.id === message.author.id) return message.reply({ content: `:bank: | ** ${user.username}, your account balance is \`${credits}\`.**`, allowedMentions: { repliedUser: false },})
                           
     credits = data.get(`credits_${message.author.id}`) || 0; 
+    if (isNaN(amount) || parseInt(amount) != amount || parseInt(amount) < 1) return message.reply({content: ``})
     let tax = Math.floor(parseInt(amount - amount / parseInt(100 / 5)))
-    let number = (Math.random() * (99999 - 9999) + 9999);
+    let number = (Math.random() * (99999 - 10000) + 10000);
     if(credits < amount) return message.reply({content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`, allowedMentions: { replieduser: false }})
      let msg = await message.reply({content: `** ${message.author.username}, Transfer Fees: \`${amount - tax}\`, Amount :\`$${tax}\`** \n  type these numbers to confirm :`, files: [await require('../../src/managers/createCaptcha')(number)], allowedMentions: { replieduser: false }})
      const filter = m => m.author.id === message.author.id
@@ -27,9 +28,8 @@ module.exports = {
        collector.on('collect', (m) => {
          if(m.content.includes(`${parseInt(number)}`)) {
          msg.delete().catch(() => 404)
-         //m.delete().catch(() => 404)
-          message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
-         user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${amount} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``) 
+         message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
+          user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${amount} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``) 
           data.add(`credits_${user.id}`,parseInt(amount));
           data.subtract(`credits_${message.author.id}`, parseInt(amount));                                    
         return; 
