@@ -3,12 +3,27 @@ const cooldowns = new Set() ;
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
-    if(message.content.startsWith("c")) {
-    if (cooldowns.has(message.author.id)) {
-       } else {
-     cooldowns.add(message.author.id);
-     return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }}).then(async (msg) => {   
-     setTimeout(() => msg.delete(), 3000) 
+         let now = Date.now();
+      let timestamps = cooldowns.get(command.name);
+      let cooldownAmount = (command.cooldown || 3) * 1000;
+      if (timestamps.has(message.author.id)) {
+        let expirationTime = timestamps.get(message.author.id) + cooldownAmount;
+        if (now < expirationTime) {
+          let timeLeft = (expirationTime - now ) / 1000;
+          if (!cooldowns.has(message.author.id)) {
+            cooldowns.set(message.author.id, true);
+            return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }})
+              .then(msg => {    
+              setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
+              setTimeout(async () => message.delete(), 2500).catch(async () => null)
+             }).catch(async () => {
+           });
+          } else return;
+      timestamps.set(message.author.id, now);
+      setTimeout(() => {
+        timestamps.delete(message.author.id);
+        cooldowns.delete(message.author.id);
+      }, cooldownAmount);
     
     if(message.author.bot) return 
     const data = client.db;
@@ -90,8 +105,16 @@ module.exports.c = (client) => {
         msg.delete().catch(() => 404);
         })
        }
-     }) 
+         }
+       }
+     })
      }
+      
+        
+        
+       }
    }
+     }) 
+     
    }) 
  }
