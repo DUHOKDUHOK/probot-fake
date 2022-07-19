@@ -1,21 +1,10 @@
 const { MessageEmbed } = require('discord.js');
-const cooldowns = new Set() ;
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if(message.content.startsWith("c")) {
-    if (cooldowns.has(message.author.id)) {
-       } else {
-     cooldowns.add(message.author.id);
-     return message.reply({content: `**${message.author.username}**, Cool down (**${timeLeft.toFixed(0)} seconds** left)`, allowedMentions: { repliedUser: false }}).then(async (msg) => {
-     setTimeout(async () => msg.delete(), 2500).catch(async () => null) 
-                
-    if(message.author.bot) return 
     const data = client.db;
-    const args = message.content.split(" ")
-    args[0] = message.content.split(" ")[1];
-    args[1] = message.content.split(" ")[2];
-    args[2] = message.content.split(" ")[3];
+    const args = message.content.slice(2).replace(/\٠/g, '0').replace(/\١/g, '1').replace(/\٢/g, '2').replace(/\٣/g, '3').replace(/\٤/g, '4').replace(/\٥/g, '5').replace(/\٦/g, '6').replace(/\٧/g, '7').replace(/\٨/g, '8').replace(/\٩/g, '9').split(/ +/);  
     let user = message.author;
     if (args[0]) user = client.users.cache.get(args[0].toUserId()) || client.users.cache.find(u => u.username.toLowerCase() === args[0].toLocaleLowerCase())
     if (!user) return message.reply({
@@ -63,7 +52,7 @@ module.exports.c = (client) => {
       })
       let msg = await message.reply({
         content: `** ${message.author.username}, Transfer Fees: \`${amount - tax}\`, Amount :\`$${tax}\`** \n  type these numbers to confirm :`,
-        files: [await require('../src/managers/createCaptcha')(parseInt(number))],
+        files: [await require('../../src/managers/createCaptcha')(parseInt(number))],
         allowedMentions: {
           replieduser: false
         }
@@ -88,8 +77,8 @@ module.exports.c = (client) => {
       })
       collector.on("end", () => {
         msg.delete().catch(() => 404);
-         }
-        }) 
-      }) 
-    } 
-  
+        })
+       }
+     }
+  })
+};
