@@ -19,7 +19,7 @@ module.exports = {
          return message.channel.send("done remove..");
         } else {
          let amount = args[2];
-         if (isNaN(amount) || parseInt(amount) != amount || parseInt(amount) < 1) return  
+         if (isNaN(amount) || parseInt(amount) != amount || parseInt(amount) < 1) return message.reply({content: `** :interrobang: | ${message.author.username}, type the credit you need to remove!**`, allowedMentions: { replieduser: false }})
          data.add(`credits_${user.id}`, parseInt(args[2]));
          return message.channel.send("done give..");
       } 
