@@ -1,4 +1,5 @@
 const { Client, Collection, MessageEmbed } = require('discord.js');
+const { c } = require('./aliases/c') 
 require('events').EventEmitter.defaultMaxListeners = 9999999; 
 const Intent = 32767
 const client = new Client({
@@ -41,4 +42,5 @@ for (let folder of readdirSync('commands').filter(folder => !folder.includes('.'
 }
 
 client.login(process.env.token)
+c(client);
 require('./src/util');
