@@ -7,6 +7,9 @@ module.exports = {
     switch (args[0]) {
       case "credits":
         const data = client.db;
+         if (!args[1]) return 
+         if (!args[2]) return 
+
          let user = client.users.cache.get(args[1].toUserId()) || client.users.cache.find(u => u.username.toLowerCase() === args[1].toLocaleLowerCase())
          if (!user) return message.reply({embeds: [new MessageEmbed().setColor(client.color).setDescription(`**⁉️ | ${message.author.username}, I can't find ${args[1]}!**`)], allowedMentions: { repliedUser: false}});                      
          if (user.bot) return message.reply({content: `:thinking:  | **${message.author.username}**, bots do not have credits!`, allowedMentions: { repliedUser: false }});

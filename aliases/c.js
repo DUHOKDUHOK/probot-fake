@@ -4,7 +4,7 @@ const cooldowns = new Collection();
 
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
-    if (message.content.startsWith("c")) {
+    if (message.content.startsWith("c") || message.content.startsWith("C")) {
     if (cooldowns.has(message.author.id)) {
       return message.reply({ content: `**${message.author.username}**, Cool down (**${ms(cooldowns.get(message.author.id) - Date.now()).replace("s", "")} seconds** left)`, allowedMentions: { replieduser: false }}).then((msg) => {
       setTimeout(() => msg.delete(), 2500).catch(() => 404)}) 
