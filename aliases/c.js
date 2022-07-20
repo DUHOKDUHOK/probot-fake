@@ -80,7 +80,7 @@ module.exports.c = (client) => {
         collector.on('collect', (m) => {
           if (m.content.includes(`${parseInt(number)}`)) {
             msg.delete().catch(() => 404)
-            message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${amount}\` to ${user}**`)
+            message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${tax}\` to ${user}**`)
             user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${tax} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``)
             data.add(`credits_${user.id}`, parseInt(amount));
             data.subtract(`credits_${message.author.id}`, parseInt(amount));
