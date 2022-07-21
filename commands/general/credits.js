@@ -22,12 +22,16 @@ module.exports = {
     const amount = args[1];
     let credits = data.get(`credits_${user.id}`) || 0;
     if (!amount) {
-      return message.reply({
-        content: `:bank: | ** ${user.username}, your account balance is \`$${credits}\`.**`,
+      if (user.id === message.author.id) {
+      
+     } else {
+     return message.reply({
+        content: `** ${user.username} :credit_card: balance is \`$${credits}\`.**`,
         allowedMentions: {
           repliedUser: false
         },
       });
+     } 
     } else {
       if (user.id === message.author.id) return message.reply({
         content: `:bank: | ** ${user.username}, your account balance is \`$${credits}\`.**`,
@@ -68,7 +72,7 @@ module.exports = {
           msg.delete().catch(() => 404);
           m.delete().catch(() => 404);
           message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${tax}\` to ${user}**`)
-          user.send(`:atm:  |  Transfer Receipt \n\`\`\`You have received $${tax} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``)
+          user.send(`:atm:  |  Transfer Receipt \`\`\`You have received $${tax} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``)
           data.add(`credits_${user.id}`, parseInt(amount));
           data.subtract(`credits_${message.author.id}`, parseInt(amount));
           return;
@@ -80,5 +84,5 @@ module.exports = {
         msg.delete().catch(() => 404);
       })
     }
-  }
+  } 
 }
