@@ -6,18 +6,12 @@ module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if (message.content.startsWith("c") || message.content.startsWith("C")) {
     if (cooldowns.has(message.author.id)) {
-        return message.reply({
-          content: `**${message.author.username}**, Cool down (**${ms(cooldowns.get(message.author.id) - Date.now()).replace("s", "")} seconds** left)`,
-          allowedMentions: {
-            replieduser: false
-          }
-        }).then((msg) => {
-          setTimeout(() => msg.delete(), 2500).catch(() => 404)
-        })
-      } else {
-        cooldowns.set(message.author.id, Date.now() + 20000);
-        setTimeout(() => {
-          cooldowns.delete(message.author.id);
+      return message.reply({ content: `**${message.author.username}**, Cool down (**${ms(cooldowns.get(message.author.id) - Date.now()).replace("s", "")} seconds** left)`, allowedMentions: { replieduser: false }}).then((msg) => {
+       setTimeout(() => msg.delete(), 2500).catch(() => 404)})
+          } else {
+      cooldowns.set(message.author.id, Date.now() + 20000);
+      setTimeout(() => {
+      cooldowns.delete(message.author.id);
         }, 20000);
       }
       const data = client.db;
