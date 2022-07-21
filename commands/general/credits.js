@@ -23,15 +23,20 @@ module.exports = {
     let credits = data.get(`credits_${user.id}`) || 0;
     if (!amount) {
       if (user.id === message.author.id) {
-      
-     } else {
-     return message.reply({
-        content: `** ${user.username} :credit_card: balance is \`$${credits}\`.**`,
-        allowedMentions: {
-          repliedUser: false
-        },
-      });
-     } 
+        return message.reply({
+          content: `:bank: | ** ${message.author.username}, your account balance is \`$${credits}\`.**`,
+          allowedMentions: {
+            repliedUser: false
+          }
+        })
+      } else {
+        return message.reply({
+          content: `** ${user.username} :credit_card: balance is \`$${credits}\`.**`,
+          allowedMentions: {
+            repliedUser: false
+          },
+        });
+      }
     } else {
       if (user.id === message.author.id) return message.reply({
         content: `:bank: | ** ${user.username}, your account balance is \`$${credits}\`.**`,
@@ -84,5 +89,5 @@ module.exports = {
         msg.delete().catch(() => 404);
       })
     }
-  } 
+  }
 }
