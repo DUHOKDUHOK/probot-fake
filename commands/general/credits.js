@@ -79,7 +79,7 @@ module.exports = {
           m.delete().catch(() => 404);
           message.channel.send(`**:moneybag: | ${message.author.username}, has transferred \`$${tax}\` to ${user}**`)
           user.send(`:atm:  |  Transfer Receipt \`\`\`You have received $${tax} from user ${message.author.username} (ID: ${message.author.id}) Reason: No reason provided\`\`\``)
-          data.add(`credits_${user.id}`, parseInt(amount));
+          data.add(`credits_${user.id}`, parseInt(tax));
           data.subtract(`credits_${message.author.id}`, parseInt(amount));
           return;
         } else {
