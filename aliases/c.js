@@ -1,10 +1,11 @@
 const { MessageEmbed, Collection } = require('discord.js');
 const ms = require('ms');
 const cooldowns = new Collection();
+
 module.exports.c = (client) => {
   client.on("messageCreate", async (message) => {
     if (message.content.startsWith("c") || message.content.startsWith("C")) {
-      if (cooldowns.has(message.author.id)) {
+    if (cooldowns.has(message.author.id)) {
         return message.reply({
           content: `**${message.author.username}**, Cool down (**${ms(cooldowns.get(message.author.id) - Date.now()).replace("s", "")} seconds** left)`,
           allowedMentions: {
