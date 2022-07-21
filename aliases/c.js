@@ -66,6 +66,7 @@ module.exports.c = (client) => {
           }
         });
         let tax = Math.floor(parseInt(amount - amount / parseInt(100 / 5)))
+        if (tax === 0) tax = 1
         let number = (Math.random() * (99999 - 10000) + 10000);
         if (credits < amount) return message.reply({
           content: `** :thinking: | ${message.author.username}, Your balance is not enough for that!**`,
