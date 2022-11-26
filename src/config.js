@@ -1,7 +1,7 @@
 const prefix = "#";
 
 module.exports = {
-  prefix: prefix, 
+  prefix: prefix,"$" 
   color: "#E4002E", 
-  owners: ["789896576402587667"] 
+  owners: ["983856959012864012"] 
 }
